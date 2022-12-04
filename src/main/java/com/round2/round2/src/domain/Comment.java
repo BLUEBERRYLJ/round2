@@ -23,11 +23,12 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
-    private Post Post;
+    private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
 
     private String content;
 
@@ -44,7 +45,7 @@ public class Comment {
     @Column(name = "is_anonymous")
     private boolean isAnonymous;
 
-    @OneToMany(mappedBy = "Comment")
+    @OneToMany(mappedBy = "comment")
     private List<CommentLike> commentLikeList = new ArrayList<>();
 
     @Column(name = "created_at")

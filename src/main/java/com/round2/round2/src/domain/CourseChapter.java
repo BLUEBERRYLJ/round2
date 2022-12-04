@@ -12,20 +12,25 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="courese_chapter")
+@Table(name="course_chapter")
 public class CourseChapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_chapter_id")
-    private Long id;
+    @Column(name = "chapter_id")
+    private int id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @Column(name = "chapter_name")
     private String chapterName;
-    @Column(name = "introduction")
+
+    @Column(columnDefinition = "TEXT", name = "introduction")
     private String introduction;
     @Column (name = "runtime")
     private double runtime;
-    @Column (name = "video_url")
+    @Column (columnDefinition = "TEXT", name = "video_url")
     private String videoUrl;
     @Column (name = "created_at")
     private LocalDateTime createdAt;
