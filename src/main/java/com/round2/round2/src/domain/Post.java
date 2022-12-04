@@ -1,5 +1,6 @@
 package com.round2.round2.src.domain;
 
+import com.round2.round2.src.post.model.CreatePostRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -54,28 +55,17 @@ public class Post {
 
 
 
-//    public static Post createPost (Member member, PostCategory category, CreatePostRequest req) {
-//        Post Post = new Post();
-//        Post.setMember(member);
-//        Post.setName(member.get());
-//        Post.setCategory(category);
-//        Post.setTitle(req.getTitle());
-//        Post.setContent(req.getContent());
-//        Post.createdAt = LocalDateTime.now();
-//        Post.updatedAt = LocalDateTime.now();
-//        Post.setIsAnonymous(req.getIsAnonymous());
-//
-////      //Better logic below
-//        if (req.getMultipartFile() != null && !(req.getMultipartFile().isEmpty())) {
-//            Post.setIsFileAttached(true);
-//        }
-//        else {
-//            Post.setIsFileAttached(false);
-//        }
-//
-//        Post.status = Status.ACTIVE;
-//        return Post;
-//    }
+    public static Post createPost (Member member, PostCategory category, CreatePostRequest req) {
+        Post Post = new Post();
+        Post.setMember(member);
+        Post.setCategory(category);
+        Post.setTitle(req.getTitle());
+        Post.setContent(req.getContent());
+        Post.createdAt = LocalDateTime.now();
+        Post.setIsAnonymous(req.getIsAnonymous());
+        Post.status = Status.ACTIVE;
+        return Post;
+    }
 
 //    public void updatePost (UpdatePostRequest req){
 //        this.setTitle(req.getTitle());
