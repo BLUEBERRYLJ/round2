@@ -24,7 +24,7 @@ public class Course {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
-    private CourseCategory courseCategory;
+    private Member member;
     @Column (name = "course_name")
     private String courseName;
     @Column (name = "introduction")
