@@ -1,0 +1,35 @@
+package com.round2.round2.src.domain;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Setter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="courese_chapter")
+public class CourseChapter {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "course_chapter_id")
+    private Long id;
+
+    @Column(name = "chapter_name")
+    private String chapterName;
+    @Column(name = "introduction")
+    private String introduction;
+    @Column (name = "runtime")
+    private double runtime;
+    @Column (name = "video_url")
+    private String videoUrl;
+    @Column (name = "created_at")
+    private LocalDateTime createdAt;
+    @Column (name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+}
