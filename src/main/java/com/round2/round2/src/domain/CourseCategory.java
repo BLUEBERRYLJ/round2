@@ -17,12 +17,12 @@ import java.util.List;
 public class CourseCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_category_id")
-    private Long id;
+    @Column(name = "category_id")
+    private int id;
 
     @Column(name = "category_name")
     private String categoryName;
 
-    @OneToMany(mappedBy = "courseCategory")
+    @OneToMany(mappedBy = "category")
     private List<Course> courseList = new ArrayList<>();
 }

@@ -22,14 +22,21 @@ public class Course {
     @Column(name = "course_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_id")
-    private Member member;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="member_id")
+//    private Member member;
+
     @Column (name = "course_name")
     private String courseName;
-    @Column (name = "introduction")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private CourseCategory category;
+
+    @Column (columnDefinition = "TEXT", name = "introduction")
     private String introduction;
-    @Column(name = "intro_url")
+
+    @Column(columnDefinition = "TEXT", name = "intro_url")
     private String introUrl;
     @Column (name = "runtime")
     private double runtime;

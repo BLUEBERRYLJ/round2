@@ -15,8 +15,8 @@ import javax.persistence.*;
 public class MemberCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
-    private Long id;
+    @Column(name = "member_course_id")
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

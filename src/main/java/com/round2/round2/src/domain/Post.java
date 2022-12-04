@@ -27,8 +27,10 @@ public class Post {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private String title;//글자수제한
+    @Column(columnDefinition = "TEXT")
     private String content; //글자수제한
+
+    private String title;//글자수제한
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -42,10 +44,10 @@ public class Post {
     @Column(columnDefinition = "enum")
     private Status status;
 
-    @OneToMany(mappedBy = "Post")
+    @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Post")
+    @OneToMany(mappedBy = "post")
     private List<PostLike> postLikeList = new ArrayList<>();
 
 

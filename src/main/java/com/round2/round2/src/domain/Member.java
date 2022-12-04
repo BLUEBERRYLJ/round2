@@ -14,12 +14,12 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="course_category")
+@Table(name="member")
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_category_id")
+    @Column(name = "member_id")
     private Long id;
 
     private String name;
@@ -42,7 +42,7 @@ public class Member {
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Course> courseList = new ArrayList<>();
+    private List<MemberCourse> courseList = new ArrayList<>();
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
