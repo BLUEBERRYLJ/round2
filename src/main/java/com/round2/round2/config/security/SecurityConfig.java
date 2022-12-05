@@ -1,8 +1,8 @@
 
 package com.round2.round2.config.security;
 
-import community.mingle.app.config.CustomAuthenticationEntryPoint;
-import community.mingle.app.config.TokenHelper;
+import com.round2.round2.config.CustomAuthenticationEntryPoint;
+import com.round2.round2.config.TokenHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,11 +57,11 @@ public class SecurityConfig {
 //                .antMatchers("/**").permitAll()
 //                .antMatchers("/v3/api-docs/**").permitAll()
 //                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/auth/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/member/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/member/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/ping").permitAll()
                 .antMatchers("/post/**").access("@memberGuard.check()")
-                .antMatchers("/member/**").access("@memberGuard.check()")
+//                .antMatchers("/member/**").access("@memberGuard.check()")
                 .antMatchers("/comment/**").access("@memberGuard.check()")
                 .antMatchers("/home/**").access("@memberGuard.check()")
                 .and()

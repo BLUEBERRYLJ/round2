@@ -1,6 +1,6 @@
 package com.round2.round2.config.security;
 
-import community.mingle.app.config.TokenHelper;
+import com.round2.round2.config.TokenHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

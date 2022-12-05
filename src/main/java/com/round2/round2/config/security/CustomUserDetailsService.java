@@ -1,7 +1,7 @@
 package com.round2.round2.config.security;
 
-import community.mingle.app.config.TokenHelper;
-import community.mingle.app.config.handler.JwtHandler;
+import com.round2.round2.config.TokenHelper;
+import com.round2.round2.config.handler.JwtHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;

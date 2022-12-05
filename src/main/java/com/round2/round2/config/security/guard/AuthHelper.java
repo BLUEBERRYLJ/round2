@@ -1,7 +1,7 @@
 package com.round2.round2.config.security.guard;
 
-import community.mingle.app.config.security.CustomAuthenticationToken;
-import community.mingle.app.config.security.CustomUserDetails;
+import com.round2.round2.config.security.CustomAuthenticationToken;
+import com.round2.round2.config.security.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
