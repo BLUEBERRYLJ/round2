@@ -1,11 +1,14 @@
 package com.round2.round2.src.post;
 
+import com.round2.round2.src.post.model.BasicResponse;
 import com.round2.round2.src.post.model.CreatePostRequest;
 import com.round2.round2.src.post.model.PostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.Basic;
 
 @RestController
 @RequestMapping("/post")
@@ -16,17 +19,17 @@ public class PostController {
 
 
     /**
-     * 게시물 생성
+     * 3.3 게시물 생성
      */
     @PostMapping
-    public ResponseEntity<PostResponse> createPost(@RequestBody CreatePostRequest request) {
+    public ResponseEntity<BasicResponse> createPost(@RequestBody CreatePostRequest request) {
         if (request.getContent().isEmpty() || request.getTitle().isEmpty()) { // 제목 / 본문 비어있을때
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(new BasicResponse("게시물 제목/본문을 입력해주세요."), HttpStatus.BAD_REQUEST);
         }
 
         PostResponse postResponse = postService.createPost(request);
         if (postResponse == null) { //cannot create - server error
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new BasicResponse("Server error"),HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 //        return ResponseEntity.created().body(postResponse);

@@ -24,7 +24,7 @@ public class PostService {
         Post post = Post.createPost(member, category, request);
         try {
             Long id = postRepository.save(post);
-            PostResponse postResponse = new PostResponse(id);
+            PostResponse postResponse = new PostResponse(id, "게시물 작성 완료");
             return postResponse;
         } catch (Exception e) {
             e.printStackTrace();
