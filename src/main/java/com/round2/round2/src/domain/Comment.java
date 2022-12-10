@@ -67,25 +67,25 @@ public class Comment {
 //        this.status = Status.INACTIVE; //update 문으로 변경
 //    }
 
-//    public static Comment createComment(Post Post, Member member, String content, Long parentCommentId, Long mentionId, boolean isAnonymous, Long anonymousId) {
-//        Comment Comment = new Comment();
-//        Comment.setPost(Post);
-//        Comment.setMember(member);
-//        Comment.setContent(content);
-//        Comment.setParentCommentId(parentCommentId);
-//        Comment.setMentionId(mentionId);
-//        Comment.setAnonymous(isAnonymous);
-//        Comment.setAnonymousId(anonymousId);
-//        Comment.createdAt = LocalDateTime.now();
-//        Comment.updatedAt = LocalDateTime.now();
-//        Comment.status = Status.ACTIVE;
-//
-//        return Comment;
-//    }
-//
-//    public void deleteComment (){
-//        this.deletedAt = LocalDateTime.now();
-//        this.status = Status.INACTIVE;
-//    }
+    public static Comment createComment(Post Post, Member member, String content, Long parentCommentId, Long mentionId, boolean isAnonymous, Long anonymousId) {
+        Comment Comment = new Comment();
+        Comment.setPost(Post);
+        Comment.setMember(member);
+        Comment.setContent(content);
+        Comment.setParentCommentId(parentCommentId);
+        Comment.setMentionId(mentionId);
+        Comment.setAnonymous(isAnonymous);
+        Comment.setAnonymousId(anonymousId);
+        Comment.createdAt = LocalDateTime.now();
+        Comment.updatedAt = LocalDateTime.now();
+        Comment.status = Status.ACTIVE;
+
+        return Comment;
+    }
+
+    public void deleteComment (){
+        this.deletedAt = LocalDateTime.now();
+        this.status = Status.INACTIVE;
+    }
 
 }
