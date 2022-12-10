@@ -1,10 +1,7 @@
 package com.round2.round2.src.post;
 
 import com.round2.round2.config.exception.CustomException;
-import com.round2.round2.src.domain.Member;
-import com.round2.round2.src.domain.Post;
-import com.round2.round2.src.domain.PostCategory;
-import com.round2.round2.src.domain.Status;
+import com.round2.round2.src.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -79,7 +76,25 @@ public class PostRepository {
     /**
      * 3.4 게시물 상세
      */
-//    public Post findPostById(Long postId) {
-//
+    public Post findPostById(Long postId) {
+        Post post = em.find(Post.class, postId);
+        if (post == null) 
+            throw new CustomException(POST_NOT_EXIST);
+        return post;
+    }
+    
+//    public boolean checkIsLiked(Long id, Long memberIdByJwt) {
 //    }
+
+    public boolean checkIsLiked(Long postId, Long memberId) {
+        List<PostLike> postLikeList = em.createQuery("select pl from PostLike pl join pl.Post p join pl.member m where p.id = :postId and m.id = :memberId", PostLike.class)
+                .setParameter("postId", postId)
+                .setParameter("memberId", memberId)
+                .getResultList();
+        if (postLikeList.size() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

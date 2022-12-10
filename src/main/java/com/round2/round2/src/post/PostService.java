@@ -4,9 +4,11 @@ import com.round2.round2.config.exception.CustomException;
 import com.round2.round2.src.domain.Member;
 import com.round2.round2.src.domain.Post;
 import com.round2.round2.src.domain.PostCategory;
+import com.round2.round2.src.domain.Status;
 import com.round2.round2.src.post.model.CreatePostRequest;
 import com.round2.round2.src.post.model.CreatePostResponse;
 import com.round2.round2.src.post.model.PostResponse;
+import com.round2.round2.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ import static com.round2.round2.config.exception.ErrorCode.*;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final JwtService jwtService;
 
 
     /**
@@ -60,12 +63,29 @@ public class PostService {
      * 3.4 게시물 상세 API
      */
     public Post getPost(Long postId) {
-        Post post = postRepository.findPostById(postId);
+        Post post = postRepository.findPostById(postId); //throw POST_NOT_EXIST
+        if (post.getStatus().equals(Status.INACTIVE)) {
+            throw new CustomException(DELETED_POST);
+        }
+        return post;
     }
 
     public PostResponse getPostResponse(Post post) {
+        Long memberIdByJwt = jwtService.getUserIdx();
+        boolean isMyPost = false;
+        boolean isLiked = false;
+        try {
+            if (post.getMember().getId() == memberIdByJwt)
+                isMyPost = true;
+            if (postRepository.checkIsLiked(post.getId(), memberIdByJwt) == true)
+                isLiked = true;
+        } catch (Exception e) {
+            throw new CustomException(DATABASE_ERROR);
+        }
+        post.updateView(); //조회수 +1
+        PostResponse PostResponse = new PostResponse(post, isMyPost, isLiked);
+        return PostResponse;
     }
 
-    public void updateView(Long postId) {
-    }
+
 }

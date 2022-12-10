@@ -40,10 +40,10 @@ public class PostController {
      * 3.2 게시판 리스트 API 
      */
     @GetMapping
-    public ResponseEntity<List<PostResponse>> getPosts (@RequestParam int category) {
+    public ResponseEntity<List<PostListResponse>> getPosts (@RequestParam int category) {
         List<Post> Posts = postService.findPostList(category);
-        List<PostResponse> result = Posts.stream()
-                .map(p -> new PostResponse(p))
+        List<PostListResponse> result = Posts.stream()
+                .map(p -> new PostListResponse(p))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -71,12 +71,9 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponse> getPostDetail(@PathVariable Long postId) {
         Post post = postService.getPost(postId);
-        postService.updateView(postId);
         PostResponse postResponse = postService.getPostResponse(post);
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
-//            @ApiResponse(responseCode = "3035", description = "게시물이 존재하지 않습니다.", content = @Content (schema = @Schema(hidden = true))),
-//            @ApiResponse(responseCode = "3036", description = "삭제되거나 신고된 게시물 입니다.", content = @Content (schema = @Schema(hidden = true))),
 
 
 

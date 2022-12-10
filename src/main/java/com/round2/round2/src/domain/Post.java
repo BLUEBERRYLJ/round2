@@ -51,7 +51,8 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<PostLike> postLikeList = new ArrayList<>();
 
-
+    @Column(name = "view_count", columnDefinition = "integer default 0", nullable = false)
+    private int viewCount;
 
 
 
@@ -81,5 +82,12 @@ public class Post {
         this.status = Status.INACTIVE;
     }
 
+    public void updateView() {
+        if (viewCount == 0) {
+            this.viewCount = 1;
+        } else {
+            this.viewCount = viewCount + 1;
+        }
+    }
 
 }
