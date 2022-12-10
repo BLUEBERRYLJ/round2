@@ -79,7 +79,7 @@ public class PostController {
     /**
      * 3.5 게시물 삭제 API
      */
-    @PatchMapping("status")
+    @PatchMapping("status/{id}")
     public ResponseEntity<String> deletePost (@PathVariable Long id) {
         postService.deletePost(id);
         return new ResponseEntity<>("게시물 삭제에 성공하였습니다.", HttpStatus.OK);
