@@ -24,11 +24,10 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     /**
-     * 4.1 전체게시판 댓글 작성 api
+     * 4.1 댓글 작성 api
      * @return commentId
      */
     @Transactional
-
     public PostCommentResponse createComment(PostCommentRequest postCommentRequest) throws CustomException {
         Long memberIdByJwt = jwtService.getUserIdx();
         Post post = commentRepository.findPostbyId(postCommentRequest.getPostId());
@@ -76,7 +75,6 @@ public class CommentService {
             }
         }
 
-
         Member member = commentRepository.findMemberbyId(memberIdByJwt);
         Long anonymousId;
         if (Objects.equals(member.getId(), post.getMember().getId())) { //댓쓴이가 author 일때
@@ -94,12 +92,15 @@ public class CommentService {
 
     }
 
+    /**
+     * 4.2 댓글 삭제 API
+     * @param id
+     * @throws CustomException
+     */
     @Transactional
     public void deleteComment(Long id) throws CustomException {
-        Member member;
         Comment comment;
         Long memberIdByJwt = jwtService.getUserIdx();
-        member = commentRepository.findMemberbyId(memberIdByJwt);
         comment = commentRepository.findCommentById(id);
         if (memberIdByJwt != comment.getMember().getId()) {
             throw new CustomException(COMMENT_MODIFY_FAIL);

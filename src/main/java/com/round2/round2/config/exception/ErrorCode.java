@@ -12,19 +12,22 @@ public enum ErrorCode {
     NO_EMAIL_ERROR(400, "1002", "이메일을 입력해주세요"),
     NO_PWD_ERROR(400, "1003", "비밀번호를 입력해주세요"),
 
-    /**
-     * 2. course
-     */
 
     /**
      * 3. post
      */
-    POST_NOT_EXIST(406, "3001", "게시물을 찾지 못했습니다"),
+    EMPTY_BEST_POSTS(400, "3000", "인기 게시물이 없어요."), //3.1 인기게시물
+    NO_TITLE_ERROR(400, "3001", "게시물 제목을 입력해주세요."),
+    NO_CONTENT_ERROR(400, "3002", "게시물 본문을 입력해주세요."),
+    INVALID_POST_CATEGORY(400, "3003", "유효하지 않은 카테고리 입니다."), //3.3 게시물 작성
+    EMPTY_POST_LIST(406, "3004", "게시물이 없어요"), ///3.2 게시물리스트
+    POST_NOT_EXIST(406, "3005", "게시물을 찾지 못했습니다"),
+    POST_MODIFY_FAIL(403, "3007", "게시물 수정/삭제에 실패했습니다"),
 
     /**
      * 4. comment
      */
-    FAILED_TO_CREATECOMMENT(406, "4001", "댓글 생성에 실패했습니다"),
+    FAILED_TO_CREATECOMMENT(406, "4001", "댓글 생성에 실패했습니다"), //4.1
     COMMENT_NOT_EXIST(406, "4002", "댓글을 찾지 못했습니다."),
     COMMENT_MODIFY_FAIL(403, "4003", "댓글 수정/삭제에 실패했습니다."),
 

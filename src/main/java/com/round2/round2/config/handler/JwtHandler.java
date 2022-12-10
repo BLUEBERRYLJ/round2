@@ -1,9 +1,10 @@
 package com.round2.round2.config.handler;
 
 import com.round2.round2.config.BaseException;
-import com.round2.round2.config.BaseResponseStatus;
 import com.round2.round2.config.TokenHelper;
 import com.round2.round2.config.exception.BadRequestException;
+import com.round2.round2.config.exception.CustomException;
+import com.round2.round2.config.exception.ErrorCode;
 import com.round2.round2.utils.RedisService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -11,6 +12,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -74,7 +77,7 @@ public class JwtHandler {
     /**
      * ===== refresh Token 재발급할떄 validate =====
      */
-    public Optional<Claims> checkRefreshToken(String key, String refreshToken, String email) throws BaseException { // userId = 암호화된 email
+    public Optional<Claims> checkRefreshToken(String key, String refreshToken, String email) throws CustomException { // userId = 암호화된 email
         String redisRefreshToken = redisService.getValues(email);
         if (!refreshToken.equals(redisRefreshToken)) {
             throw new BadRequestException("토큰 재발급에 실패하였습니다.");
@@ -82,7 +85,8 @@ public class JwtHandler {
         try {
             return Optional.of(Jwts.parser().setSigningKey(key.getBytes()).parseClaimsJws(untype(refreshToken)).getBody());
         } catch (BadRequestException e) {
-            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+//            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 
