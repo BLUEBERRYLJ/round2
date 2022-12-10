@@ -31,11 +31,6 @@ public class CommentService {
     public PostCommentResponse createComment(PostCommentRequest postCommentRequest) throws CustomException {
         Long memberIdByJwt = jwtService.getUserIdx();
         Post post = commentRepository.findPostbyId(postCommentRequest.getPostId());
-        if (post == null) {
-            throw new CustomException(POST_NOT_EXIST);
-        }
-
-
         /*
         1. 댓글을 달때: parent = null, mention = null.
         2. 처음 대댓글 달때 (b) : parent = a , mention = a.
@@ -56,7 +51,8 @@ public class CommentService {
         boolean parentFlag = false;
         boolean mentionFlag = false;
 
-        if (postCommentRequest.getMentionId() == null && postCommentRequest.getParentCommentId() == null) {
+        if (postCommentRequest.getMentionId().equals(Long.valueOf(0)) && postCommentRequest.getParentCommentId().equals(Long.valueOf(0))) {
+
         }
         else {
             for (Comment PostComment : PostComments) {

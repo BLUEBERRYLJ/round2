@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PostCommentRequest {
     private Long postId;
-    private Long parentCommentId; //
+    private Long parentCommentId;
     private Long mentionId;
     private String content;
     private boolean isAnonymous;
