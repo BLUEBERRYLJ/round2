@@ -6,6 +6,8 @@ import com.round2.round2.config.exception.ErrorResponse;
 import com.round2.round2.src.domain.Post;
 import com.round2.round2.src.post.model.CreatePostRequest;
 import com.round2.round2.src.post.model.CreatePostResponse;
+import com.round2.round2.src.post.model.HomeBestPostResponse;
+import com.round2.round2.src.post.model.PostListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class PostController {
     private final PostService postService;
 
     /**
-     * 3.1 베스트 게시물 
+     * 3.1 베스트 게시물 API
      */
     @GetMapping("/best")
     public ResponseEntity<List<HomeBestPostResponse>> getBestPosts() {
@@ -37,11 +39,21 @@ public class PostController {
     }
 
 
-
+    /**
+     * 3.2 게시판 리스트 API 
+     */
+    @GetMapping
+    public ResponseEntity<List<PostListResponse>> getPosts (@RequestParam int category) {
+        List<Post> Posts = postService.findPostList(category);
+        List<PostListResponse> result = Posts.stream()
+                .map(p -> new PostListResponse(p))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 
     /**
-     * 3.3 게시물 생성
+     * 3.3 게시물 생성 API
      */
     @PostMapping
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest request) {

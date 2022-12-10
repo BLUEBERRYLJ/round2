@@ -1,4 +1,4 @@
-package com.round2.round2.src.post;
+package com.round2.round2.src.post.model;
 
 import com.round2.round2.src.domain.Post;
 import lombok.Getter;

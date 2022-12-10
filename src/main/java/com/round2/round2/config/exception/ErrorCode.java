@@ -14,8 +14,9 @@ public enum ErrorCode {
     EMPTY_BEST_POSTS(400, "3000", "인기 게시물이 없어요."), //3.1 인기게시물
     NO_TITLE_ERROR(400, "3001", "게시물 제목을 입력해주세요."),
     NO_CONTENT_ERROR(400, "3002", "게시물 본문을 입력해주세요."),
-    INVALID_POST_CATEGORY(400, "3003", "유효하지 않은 카테고리 입니다."),
+    INVALID_POST_CATEGORY(400, "3003", "유효하지 않은 카테고리 입니다."), //3.3 게시물 작성
 
+    EMPTY_POST_LIST(400, "3004", "게시물이 없어요"), ///3.2 게시물리스트
 
     INTERNAL_SERVER_ERROR(500, "500", "서버 에러");
 

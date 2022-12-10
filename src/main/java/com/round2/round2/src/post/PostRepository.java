@@ -25,6 +25,7 @@ public class PostRepository {
         if (member == null) {
             throw new CustomException(INTERNAL_SERVER_ERROR);
         }
+        return member;
     }
 
     /**
@@ -37,9 +38,8 @@ public class PostRepository {
         .setFirstResult(0)
         .setMaxResults(3)
         .getResultList();
-        if (posts.size() == 0) {
+        if (posts.size() == 0)
             throw new CustomException(EMPTY_BEST_POSTS);
-        }
         return posts;
     }
 
@@ -48,19 +48,32 @@ public class PostRepository {
      */
     public PostCategory findCategoryById(int id) {
         PostCategory category = em.find(PostCategory.class, id);
-        if (category == null) {
+        if (category == null)
             throw new CustomException(INVALID_POST_CATEGORY);
-        }
         return category;
     }
 
+
+
     /**
-     * 게시물 저장
+     * 3.2 게시물 리스트
+     */
+    public List<Post> findPostList(int category) {
+        List<Post> postList = em.createQuery("select p from Post p join p.category as c join fetch p.member as m where p.status = :status and c.categoryId = :categoryId order by p.createdAt desc ", Post.class)
+                .setParameter("status", Status.ACTIVE)
+                .setParameter("categoryId", category)
+                .getResultList();
+        if (postList.size() == 0)
+            throw new CustomException(EMPTY_POST_LIST);
+        return postList;
+    }
+
+    /**
+     * 3.3 게시물 저장
      */
     public Long save(Post post) {
         em.persist(post);
         return post.getId();
     }
-
 
 }

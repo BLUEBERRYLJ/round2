@@ -28,6 +28,13 @@ public class PostService {
         return postRepository.findBestPost(); //throw
     }
 
+    /**
+     * 3.2 게시물 리스트 API
+     */
+    public List<Post> findPostList(int category) {
+        return postRepository.findPostList(category);
+    }
+
 
     /**
      * 3.3 게시물 작성 API
@@ -46,4 +53,7 @@ public class PostService {
             throw new CustomException(INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
 }
