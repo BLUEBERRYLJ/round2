@@ -76,4 +76,10 @@ public class PostRepository {
         return post.getId();
     }
 
+    /**
+     * 3.4 게시물 상세
+     */
+//    public Post findPostById(Long postId) {
+//
+//    }
 }

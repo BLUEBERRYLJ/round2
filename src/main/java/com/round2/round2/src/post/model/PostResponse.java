@@ -6,7 +6,8 @@ import lombok.Getter;
 import static com.round2.round2.config.DateTimeConverter.convertLocaldatetimeToTime;
 
 @Getter
-public class PostListResponse {
+public class PostResponse {
+    
     private Long postId;
     private String title;
     private String contents;
@@ -16,7 +17,7 @@ public class PostListResponse {
     private String createdAt;
 
 
-    public PostListResponse(Post Post) {
+    public PostResponse(Post Post) {
         this.postId = Post.getId();
         this.title = Post.getTitle();
         this.contents = Post.getContent();
@@ -29,4 +30,5 @@ public class PostListResponse {
         this.commentCount = Post.getCommentList().size();
         this.createdAt = convertLocaldatetimeToTime(Post.getCreatedAt());
     }
+
 }

@@ -6,6 +6,7 @@ import com.round2.round2.src.domain.Post;
 import com.round2.round2.src.domain.PostCategory;
 import com.round2.round2.src.post.model.CreatePostRequest;
 import com.round2.round2.src.post.model.CreatePostResponse;
+import com.round2.round2.src.post.model.PostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,5 +56,16 @@ public class PostService {
     }
 
 
+    /**
+     * 3.4 게시물 상세 API
+     */
+    public Post getPost(Long postId) {
+        Post post = postRepository.findPostById(postId);
+    }
 
+    public PostResponse getPostResponse(Post post) {
+    }
+
+    public void updateView(Long postId) {
+    }
 }
