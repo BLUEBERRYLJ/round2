@@ -32,7 +32,7 @@ public class CommentController {
      * @param id
      * @return
      */
-    @PatchMapping("/status")
+    @PatchMapping("/status/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
         return new ResponseEntity<>("댓글 삭제에 성공하였습니다.", HttpStatus.OK);
