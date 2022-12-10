@@ -1,12 +1,20 @@
 package com.round2.round2.src.post;
 
-import com.round2.round2.src.post.model.BasicResponse;
+import com.round2.round2.config.exception.CustomException;
+import com.round2.round2.config.exception.ErrorCode;
+import com.round2.round2.config.exception.ErrorResponse;
+import com.round2.round2.src.domain.Post;
 import com.round2.round2.src.post.model.CreatePostRequest;
-import com.round2.round2.src.post.model.PostResponse;
+import com.round2.round2.src.post.model.CreatePostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.round2.round2.config.exception.ErrorCode.*;
 
 
 @RestController
@@ -16,45 +24,43 @@ public class PostController {
 
     private final PostService postService;
 
-
     /**
-     * 3.3 게시물 생성
-     * Error v1 - 그냥 아이디어
+     * 3.1 베스트 게시물 
      */
-//    @PostMapping
-//    public ResponseEntity<BasicResponse> createPost(@RequestBody CreatePostRequest request) {
-//        if (request.getContent().isEmpty() || request.getTitle().isEmpty()) { // 제목 / 본문 비어있을때
-//            return new ResponseEntity<>(new BasicResponse("게시물 제목/본문을 입력해주세요."), HttpStatus.BAD_REQUEST);
-//        }
-//        PostResponse postResponse = postService.createPost(request);
-//        if (postResponse == null) { //cannot create - server error
-//            return new ResponseEntity<>(new BasicResponse("Server error"),HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//        return new ResponseEntity<>(postResponse, HttpStatus.CREATED);
-//    }
+    @GetMapping("/best")
+    public ResponseEntity<List<HomeBestPostResponse>> getBestPosts() {
+        List<Post> posts = postService.findBestPost();
+        List<HomeBestPostResponse> result = posts.stream()
+                .map(m -> new HomeBestPostResponse(m))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+
+
+
 
     /**
      * 3.3 게시물 생성
-     * Error v2
      */
     @PostMapping
-    public ResponseEntity<BasicResponse> createPost(@RequestBody CreatePostRequest request) {
-        if (request.getContent().isEmpty() || request.getTitle().isEmpty()) { // 제목 / 본문 비어있을때
-            return new ResponseEntity<>(new BasicResponse("게시물 제목/본문을 입력해주세요."), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest request) {
+        if (request.getTitle().isEmpty()) { // 제목 비어있을때
+            throw new CustomException(NO_TITLE_ERROR);
         }
-        PostResponse postResponse = postService.createPost(request);
-        if (postResponse == null) { //cannot create - server error
-            return new ResponseEntity<>(new BasicResponse("Server error"),HttpStatus.INTERNAL_SERVER_ERROR);
+        if (request.getContent().isEmpty()) { // 본문 비어있을때
+            throw new CustomException(NO_CONTENT_ERROR);
         }
+        CreatePostResponse postResponse = postService.createPost(request);
         return new ResponseEntity<>(postResponse, HttpStatus.CREATED);
     }
 
 
-    @ExceptionHandler(NullPointerException.class)
-    public Object nullex(Exception e) {
-        System.err.println(e.getClass());
-        return "myService";
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ErrorResponse> exceptionHandler(CustomException customException) {
+        ErrorCode errorCode = customException.getErrorCode();
+        ErrorResponse errorResponse = new ErrorResponse(errorCode);
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorCode.getStatus()));
     }
-
 
 }

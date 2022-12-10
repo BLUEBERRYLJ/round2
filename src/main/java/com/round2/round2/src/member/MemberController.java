@@ -46,7 +46,7 @@ public class MemberController {
         if (loginRequest.getPwd().isEmpty()) {
             throw new CustomException(NO_PWD_ERROR);
         }
-        LoginResponse loginResponse = memberService.login2(loginRequest);
+        LoginResponse loginResponse = memberService.login(loginRequest);
         return new ResponseEntity<>(loginResponse, HttpStatus.OK);
     }
 
@@ -54,6 +54,6 @@ public class MemberController {
     public ResponseEntity<ErrorResponse> exceptionHandler(CustomException customException) {
         ErrorCode errorCode = customException.getErrorCode();
         ErrorResponse errorResponse = new ErrorResponse(errorCode);
-        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorCode.getStatus()));
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorCode.getStatus())); //resolve: convert code in errorCode to http status code
     }
 }

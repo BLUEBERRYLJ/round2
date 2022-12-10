@@ -1,7 +1,6 @@
 package com.round2.round2.config.handler;
 
 import com.round2.round2.config.BaseException;
-import com.round2.round2.config.BaseResponseStatus;
 import com.round2.round2.config.TokenHelper;
 import com.round2.round2.config.exception.BadRequestException;
 import com.round2.round2.utils.RedisService;
