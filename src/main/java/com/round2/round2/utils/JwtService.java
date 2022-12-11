@@ -56,8 +56,6 @@ public class JwtService {
     }
 
 
-
-
     public String getUserAuthority() throws CustomException{
         //1. JWT 추출
         String accessToken = untype(getJwt());

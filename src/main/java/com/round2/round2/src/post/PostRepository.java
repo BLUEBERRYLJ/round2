@@ -30,7 +30,7 @@ public class PostRepository {
      */
     public List<Post> findBestPost() {
         List<Post> posts = em.createQuery(
-"select p from Post p join fetch p.member m where p.status = :status and p.postLikeList.size > 5 order by p.createdAt desc ", Post.class)
+    "select p from Post p join fetch p.member m where p.status = :status and p.postLikeList.size > 5 order by p.createdAt desc ", Post.class)
         .setParameter("status", Status.ACTIVE)
         .setFirstResult(0)
         .setMaxResults(3)
@@ -49,8 +49,6 @@ public class PostRepository {
             throw new CustomException(INVALID_POST_CATEGORY);
         return category;
     }
-
-
 
     /**
      * 3.2 게시물 리스트
@@ -108,4 +106,44 @@ public class PostRepository {
     }
 
 
+
+//    public Post findPostById(Long postId) {
+//        Post post = em.find(Post.class, postId);
+//        if (post == null)
+//            throw new CustomException(POST_NOT_EXIST);
+//        return post;
+//    }
+    public boolean checkIsLiked(Long postId, Long memberId) {
+        List<PostLike> postLikeList = em.createQuery("select pl from PostLike pl join pl.post p join pl.member m where p.id = :postId and m.id = :memberId", PostLike.class)
+                .setParameter("postId", postId)
+                .setParameter("memberId", memberId)
+                .getResultList();
+        if (postLikeList.size() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 3.5 게시물 상세 댓글
+     */
+    public List<Comment> getComments(Long postId) {
+        return em.createQuery("select c from Comment c join c.post as p where p.id = :id and c.parentCommentId = :parentId order by c.createdAt asc", Comment.class)
+                .setParameter("id", postId)
+                .setParameter("parentId", 0L)
+                .getResultList();
+    }
+    /**
+     * 게시물 상세 대댓글
+     */
+    public List<Comment> getCoComments(Long postId) {
+        return em.createQuery("select c from Comment c join c.post as p where p.id = :id and c.parentCommentId <> :parentId order by c.createdAt asc", Comment.class)
+                .setParameter("id", postId)
+                .setParameter("parentId", 0L)
+                .getResultList();
+    }
+    public Comment findCommentById(Long mentionId) {
+            return em.find(Comment.class, mentionId);
+    }
 }

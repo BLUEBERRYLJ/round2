@@ -20,9 +20,11 @@ public enum ErrorCode {
     NO_TITLE_ERROR(400, "3001", "게시물 제목을 입력해주세요."),
     NO_CONTENT_ERROR(400, "3002", "게시물 본문을 입력해주세요."),
     INVALID_POST_CATEGORY(400, "3003", "유효하지 않은 카테고리 입니다."), //3.3 게시물 작성
+
     EMPTY_POST_LIST(406, "3004", "게시물이 없어요"), ///3.2 게시물리스트
-    POST_NOT_EXIST(406, "3005", "게시물을 찾지 못했습니다"),
-    POST_MODIFY_FAIL(403, "3007", "게시물 수정/삭제에 실패했습니다"),
+    POST_NOT_EXIST(400, "3005", "게시물을 찾지 못했습니다."),  //3.4 게시물 상세
+    DELETED_POST(406, "3006", "삭제된 게시물입니다."),
+    POST_MODIFY_FAIL(403, "3007", "게시물 수정에 실패했습니다."),
 
     /**
      * 4. comment

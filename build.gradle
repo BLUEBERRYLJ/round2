@@ -73,7 +73,8 @@ dependencies {
 	//s3설정 추가
 //	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
-//	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+	//Swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 }
 
 tasks.named('test') {

@@ -5,6 +5,12 @@ import com.round2.round2.config.exception.ErrorCode;
 import com.round2.round2.config.exception.ErrorResponse;
 import com.round2.round2.src.member.model.LoginRequest;
 import com.round2.round2.src.member.model.LoginResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,29 +21,20 @@ import static com.round2.round2.config.exception.ErrorCode.*;
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
+@Tag(name = "member", description = "로그인/인증 API")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(schema = @Schema(hidden = true)))
+})
 public class MemberController {
 //
     private final MemberService memberService;
 
-
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws CustomException{
-////        try {
-//            if (loginRequest.getEmail().isEmpty()) {
-////                return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
-//                throw new CustomException(ErrorCode.NO_EMAIL_ERROR);
-//            }
-//            if (loginRequest.getPwd().isEmpty()) {
-////                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//                throw new CustomException(ErrorCode.NO_PWD_ERROR);
-//            }
-//            ResponseEntity<LoginResponse> loginResponse = memberService.login(loginRequest);
-//            return loginResponse;
-////        } catch (Exception e) {
-////            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-////        }
-//    }
-
+    @Operation(summary = "1.1 로그인 api", description = "1.1 로그인 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "401", description = "code:1001 | 유저를 찾지 못했습니다", content = @Content (schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "400", description = "code:1002 | 이메일을 입력해주세요", content = @Content (schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "400", description = "code:1003 | 비밀번호를 입력해주세요", content = @Content (schema = @Schema(hidden = true)))
+    })
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws CustomException {
         if (loginRequest.getEmail().isEmpty()) {

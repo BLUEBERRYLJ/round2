@@ -1,6 +1,7 @@
 package com.round2.round2.config.handler;
 
 import com.round2.round2.config.BaseException;
+import com.round2.round2.config.BaseResponseStatus;
 import com.round2.round2.config.TokenHelper;
 import com.round2.round2.config.exception.BadRequestException;
 import com.round2.round2.config.exception.CustomException;
@@ -71,8 +72,6 @@ public class JwtHandler {
     private TokenHelper.PrivateClaims convertClaim(Claims claims) {
         return new TokenHelper.PrivateClaims(claims.get("MEMBER_ID", String.class), claims.get("ROLE_TYPES", String.class));
     }
-
-
 
     /**
      * ===== refresh Token 재발급할떄 validate =====

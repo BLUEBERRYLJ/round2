@@ -20,9 +20,9 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI(@Value("${springdoc.version}") String version) {
         Info info = new Info()
-                .title("Mingle API ") // 타이틀
+                .title("Round2 API ") // 타이틀
                 .version(version) // 문서 버전
-                .description("Round 2 프로젝트 API 명세서 입니다."); // 문서 설명
+                .description("Round2 시니터 API 명세서입니다."); // 문서 설명
 
 
         // Security 스키마 설정
