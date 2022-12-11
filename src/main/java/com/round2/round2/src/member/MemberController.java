@@ -29,6 +29,8 @@ public class MemberController {
 //
     private final MemberService memberService;
 
+
+
     @Operation(summary = "1.1 로그인 api", description = "1.1 로그인 api")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "401", description = "code:1001 | 유저를 찾지 못했습니다", content = @Content (schema = @Schema(hidden = true))),

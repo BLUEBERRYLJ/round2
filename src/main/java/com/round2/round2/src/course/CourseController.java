@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 })
 public class CourseController {
 
-//    private final CourseService courseService;
+    private final CourseService courseService;
 
 
 
@@ -42,9 +42,9 @@ public class CourseController {
     @ApiResponses ({
             @ApiResponse(responseCode = "400", description = "code:", content = @Content (schema = @Schema(hidden = true)))
     })
-    public ResponseEntity<List<PostListResponse>> getCourses (@RequestParam int category) {
+    public ResponseEntity<List<CourseListResponse>> getCourses (@RequestParam int category) {
         List<Course> courseList = courseService.findPostList(category);
-        List<PostListResponse> result = courseList.stream()
+        List<CourseListResponse> result = courseList.stream()
                 .map(p -> new CourseListResponse(p))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(result, HttpStatus.OK);
