@@ -22,23 +22,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-//public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
-//    }
-//
-//
-//}
 
 
 public class SecurityConfig {
-//    private final TokenService tokenService;
-
-//    private final CustomUserDetailsService userDetailService;
-
-//    private final JwtHandler jwtHandler;
-
     private final TokenHelper tokenHelper;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

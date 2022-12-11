@@ -1,19 +1,16 @@
 package com.round2.round2.src.post;
 
 import com.round2.round2.config.exception.CustomException;
-import com.round2.round2.src.domain.Member;
-import com.round2.round2.src.domain.Post;
-import com.round2.round2.src.domain.PostCategory;
-import com.round2.round2.src.domain.Status;
-import com.round2.round2.src.post.model.CreatePostRequest;
-import com.round2.round2.src.post.model.CreatePostResponse;
-import com.round2.round2.src.post.model.PostResponse;
+import com.round2.round2.src.domain.*;
+import com.round2.round2.src.post.model.*;
 import com.round2.round2.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.round2.round2.config.exception.ErrorCode.*;
 
@@ -88,4 +85,43 @@ public class PostService {
     }
 
 
+    /**
+     * 3.5 게시물 상세 댓글 API
+     */
+    public List<CommentResponse> getCommentList(Long postId) {
+        Post post = postRepository.findPostById(postId); //throw POST_NOT_EXIST
+        if (post.getStatus().equals(Status.INACTIVE)) {
+            throw new CustomException(DELETED_POST);
+        }
+        Long memberIdByJwt = jwtService.getUserIdx();
+        try {
+            List<Comment> CommentList = postRepository.getComments(postId);
+            List<Comment> CocommentList = postRepository.getCoComments(postId);
+            List<CommentResponse> CommentResponseList = new ArrayList<>();
+            for (Comment c : CommentList) {
+                List<Comment> coComments = CocommentList.stream()
+                        .filter(obj -> c.getId().equals(obj.getParentCommentId()))
+                        .filter(cc -> cc.getStatus().equals(Status.ACTIVE))
+                        .collect(Collectors.toList());
+
+                // 삭제된 댓글 표시 안하기 - 대댓글 없는 댓글 그냥 삭제
+                if ((c.getStatus() == Status.INACTIVE) && coComments.size() == 0) {
+                    continue;
+                }
+                List<CoCommentDTO> coCommentDtos = coComments.stream()
+                        .filter(cc -> cc.getStatus().equals(Status.ACTIVE)) //대댓글 삭제시 그냥 삭제.
+                        .map(p -> new CoCommentDTO(p, postRepository.findCommentById(p.getMentionId()), memberIdByJwt, post.getMember().getId()))
+                        .collect(Collectors.toList());
+                CommentResponse CommentResponse = new CommentResponse(c, coCommentDtos, memberIdByJwt, post.getMember().getId());
+                CommentResponseList.add(CommentResponse);
+            }
+            for (CommentResponse commentResponse : CommentResponseList) {
+                System.out.println(commentResponse.getCommentId());
+            }
+            return CommentResponseList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CustomException(DATABASE_ERROR);
+        }
+    }
 }

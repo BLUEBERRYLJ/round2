@@ -5,6 +5,12 @@ import com.round2.round2.config.exception.ErrorCode;
 import com.round2.round2.config.exception.ErrorResponse;
 import com.round2.round2.src.domain.Post;
 import com.round2.round2.src.post.model.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +21,16 @@ import java.util.stream.Collectors;
 
 import static com.round2.round2.config.exception.ErrorCode.*;
 
-
+@Tag(name = "post", description = "게시물 관련 API")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK", content = @Content (schema = @Schema(hidden = true))),
+        @ApiResponse(responseCode = "403", description = "토큰을 입력해주세요 (Bearer 제외).", content = @Content(schema = @Schema(hidden = true))),
+        @ApiResponse(responseCode = "500", description = "서버 에러.", content = @Content(schema = @Schema(hidden = true))),
+})
 public class PostController {
 
     private final PostService postService;
@@ -26,6 +38,10 @@ public class PostController {
     /**
      * 3.1 베스트 게시물 API
      */
+    @Operation(summary = "3.1 베스트 게시물 API", description = "3.1 베스트 게시물 API")
+    @ApiResponses ({
+            @ApiResponse(responseCode = "400", description = "code:3000 | 인기 게시물이 없어요.", content = @Content (schema = @Schema(hidden = true)))
+    })
     @GetMapping("/best")
     public ResponseEntity<List<HomeBestPostResponse>> getBestPosts() {
         List<Post> posts = postService.findBestPost();
@@ -37,9 +53,13 @@ public class PostController {
 
 
     /**
-     * 3.2 게시판 리스트 API 
+     * 3.2 게시판 리스트 API
      */
     @GetMapping
+    @Operation(summary = "3.2 게시물 리스트 API", description = "3.2 게시물 리스트 API")
+    @ApiResponses ({
+            @ApiResponse(responseCode = "406", description = "code:3004 | 게시물이 없어요.", content = @Content (schema = @Schema(hidden = true)))
+    })
     public ResponseEntity<List<PostListResponse>> getPosts (@RequestParam int category) {
         List<Post> Posts = postService.findPostList(category);
         List<PostListResponse> result = Posts.stream()
@@ -50,9 +70,15 @@ public class PostController {
 
 
     /**
-     * 3.3 게시물 생성 API
+     * 3.3 게시물 작성 API
      */
     @PostMapping
+    @Operation(summary = "3.3 게시물 작성 API", description = "3.3 게시물 작성 API")
+    @ApiResponses ({
+            @ApiResponse(responseCode = "400", description = "code:3001 | 게시물 제목을 입력해주세요.", content = @Content (schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "400", description = "code:3002 | 게시물 본문을 입력해주세요.", content = @Content (schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "400", description = "code:3003 | 유효하지 않은 카테고리 입니다.", content = @Content (schema = @Schema(hidden = true)))
+    })
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest request) {
         if (request.getTitle().isEmpty()) { // 제목 비어있을때
             throw new CustomException(NO_TITLE_ERROR);
@@ -69,6 +95,11 @@ public class PostController {
      * 3.4 게시물 상세 API
      */
     @GetMapping("/{postId}")
+    @Operation(summary = "3.4 게시물 상세 API", description = "3.4 게시물 상세 API")
+    @ApiResponses ({
+            @ApiResponse(responseCode = "406", description = "code:3005 | 게시물을 찾지 못했습니다.", content = @Content (schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = "데이터베이스 에러", content = @Content(schema = @Schema(hidden = true))),
+    })
     public ResponseEntity<PostResponse> getPostDetail(@PathVariable Long postId) {
         Post post = postService.getPost(postId);
         PostResponse postResponse = postService.getPostResponse(post);
@@ -76,7 +107,19 @@ public class PostController {
     }
 
 
-
+    /**
+     * 3.5 게시물 상세 댓글 API
+     */
+    @ApiResponses ({
+            @ApiResponse(responseCode = "406", description = "code:3005 | 게시물을 찾지 못했습니다.", content = @Content (schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "406", description = "code:3006 | 삭제된 게시물입니다.", content = @Content (schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = "데이터베이스 에러", content = @Content(schema = @Schema(hidden = true))),
+    })
+    @GetMapping("/{postId}/comment")
+    public ResponseEntity<List<CommentResponse>> PostDetailComment(@PathVariable Long postId) {
+        List<CommentResponse> commentResponseList = postService.getCommentList(postId);
+        return new ResponseEntity<>(commentResponseList, HttpStatus.OK);
+    }
 
 
     /**
@@ -90,3 +133,4 @@ public class PostController {
     }
 
 }
+
