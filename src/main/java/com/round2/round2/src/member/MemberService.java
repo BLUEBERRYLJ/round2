@@ -52,9 +52,13 @@ public class MemberService {
     @Transactional
     public LoginResponse login(LoginRequest loginRequest) throws CustomException{
         Member member = memberRepository.findMemberByEmail(loginRequest.getEmail());
-        if (member == null || !(member.getPwd().equals(loginRequest.getPwd()))) {
+
+        String encryptPwd = new SHA256().encrypt(loginRequest.getPwd());
+
+        if (member == null || !(member.getPwd().equals(encryptPwd))) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
+
         Long memberId = member.getId(); //Member 에게 받아온 비밀번호와 방금 암호화한 비밀번호를 비교
         String memberRole = member.getRole();
         TokenHelper.PrivateClaims privateClaims = createPrivateClaims(memberId, memberRole);
