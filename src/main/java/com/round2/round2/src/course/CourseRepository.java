@@ -26,6 +26,9 @@ public class CourseRepository {
         return course;
     }
 
+    /**
+     * 2.3 강의 챕터 상세 api
+     */
     public CourseChapter findChapterById(int chapterId) {
         CourseChapter chapter = em.find(CourseChapter.class, chapterId);
         if (chapter == null) {
