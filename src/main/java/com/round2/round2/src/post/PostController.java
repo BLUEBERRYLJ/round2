@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,11 +45,15 @@ public class PostController {
     })
     @GetMapping("/best")
     public ResponseEntity<List<HomeBestPostResponse>> getBestPosts() {
+
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        
         List<Post> posts = postService.findBestPost();
         List<HomeBestPostResponse> result = posts.stream()
                 .map(m -> new HomeBestPostResponse(m))
                 .collect(Collectors.toList());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, resHeaders, HttpStatus.OK);
     }
 
 
@@ -61,11 +66,15 @@ public class PostController {
             @ApiResponse(responseCode = "406", description = "code:3004 | 게시물이 없어요.", content = @Content (schema = @Schema(hidden = true)))
     })
     public ResponseEntity<List<PostListResponse>> getPosts (@RequestParam int category) {
+
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        
         List<Post> Posts = postService.findPostList(category);
         List<PostListResponse> result = Posts.stream()
                 .map(p -> new PostListResponse(p))
                 .collect(Collectors.toList());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, resHeaders, HttpStatus.OK);
     }
 
 
@@ -80,6 +89,10 @@ public class PostController {
             @ApiResponse(responseCode = "400", description = "code:3003 | 유효하지 않은 카테고리 입니다.", content = @Content (schema = @Schema(hidden = true)))
     })
     public ResponseEntity<CreatePostResponse> createPost(@RequestBody CreatePostRequest request) {
+
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        
         if (request.getTitle().isEmpty()) { // 제목 비어있을때
             throw new CustomException(NO_TITLE_ERROR);
         }
@@ -87,7 +100,7 @@ public class PostController {
             throw new CustomException(NO_CONTENT_ERROR);
         }
         CreatePostResponse postResponse = postService.createPost(request);
-        return new ResponseEntity<>(postResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(postResponse, resHeaders, HttpStatus.CREATED);
     }
 
 
@@ -101,9 +114,12 @@ public class PostController {
             @ApiResponse(responseCode = "500", description = "데이터베이스 에러", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<PostResponse> getPostDetail(@PathVariable Long postId) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        
         Post post = postService.getPost(postId);
         PostResponse postResponse = postService.getPostResponse(post);
-        return new ResponseEntity<>(postResponse, HttpStatus.OK);
+        return new ResponseEntity<>(postResponse, resHeaders, HttpStatus.OK);
     }
 
 
@@ -117,40 +133,40 @@ public class PostController {
     })
     @GetMapping("/{postId}/comment")
     public ResponseEntity<List<CommentResponse>> PostDetailComment(@PathVariable Long postId) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        
         List<CommentResponse> commentResponseList = postService.getCommentList(postId);
-        return new ResponseEntity<>(commentResponseList, HttpStatus.OK);
+        return new ResponseEntity<>(commentResponseList, resHeaders, HttpStatus.OK);
     }
-
-
-    /**
-     * Exception Handler
-     */
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ErrorResponse> exceptionHandler(CustomException customException) {
-        ErrorCode errorCode = customException.getErrorCode();
-        ErrorResponse errorResponse = new ErrorResponse(errorCode);
-        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorCode.getStatus()));
-    }
-
+    
     /**
      * 3.5 게시물 삭제 API
      */
     @PatchMapping("status/{id}")
     public ResponseEntity<String> deletePost (@PathVariable Long id) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+
         postService.deletePost(id);
-        return new ResponseEntity<>("게시물 삭제에 성공하였습니다.", HttpStatus.OK);
+        return new ResponseEntity<>("게시물 삭제에 성공하였습니다.", resHeaders, HttpStatus.OK);
     }
 
 
-//    public BaseResponse<String> deleteTotalPost (@PathVariable Long id){
-//        try{
-//            postService.deleteTotalPost(id);
-//            String result = "게시물 삭제에 성공하였습니다.";
-//            return new BaseResponse<>(result);
-//        }catch (BaseException exception){
-//            return new BaseResponse<>(exception.getStatus());
-//        }
-//    }
+    
+    /**
+     * Exception Handler
+     */
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ErrorResponse> exceptionHandler(CustomException customException) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        
+        ErrorCode errorCode = customException.getErrorCode();
+        ErrorResponse errorResponse = new ErrorResponse(errorCode);
+        return new ResponseEntity<>(errorResponse, resHeaders, HttpStatus.resolve(errorCode.getStatus()));
+    }
+
 
 }
 

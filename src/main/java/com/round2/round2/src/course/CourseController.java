@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,11 +44,14 @@ public class  CourseController {
     @GetMapping
     @Operation(summary = " 2.1 카테고리별 강의 리스트 API (강의 페이지)", description = " 2.1 카테고리별 강의 리스트 (강의 페이지) API")
     public ResponseEntity<List<CourseListResponse>> getCourses (@RequestParam int category) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        
         List<Course> courseList = courseService.findPostList(category);
         List<CourseListResponse> result = courseList.stream()
                 .map(p -> new CourseListResponse(p))
                 .collect(Collectors.toList());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, resHeaders, HttpStatus.OK);
     }
 
     /**
@@ -59,8 +63,11 @@ public class  CourseController {
     })
     @GetMapping("/{courseId}")
     public ResponseEntity<CourseDetailResponse> getCourseDetail(@PathVariable Long courseId) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        
         CourseDetailResponse courseDetailResponse = courseService.getCourseDetail(courseId);
-        return new ResponseEntity<>(courseDetailResponse, HttpStatus.OK);
+        return new ResponseEntity<>(courseDetailResponse, resHeaders, HttpStatus.OK);
     }
 
     /**
@@ -72,15 +79,21 @@ public class  CourseController {
     })
     @GetMapping("/chapter")
     public ResponseEntity<ChapterDetailResponse> getChapterDetail(@RequestParam int chapterId) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        
         ChapterDetailResponse chapterDetailResponse = courseService.getChapterDetail(chapterId);
-        return new ResponseEntity<>(chapterDetailResponse, HttpStatus.OK);
+        return new ResponseEntity<>(chapterDetailResponse, resHeaders, HttpStatus.OK);
     }
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(CustomException customException) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        
         ErrorCode errorCode = customException.getErrorCode();
         ErrorResponse errorResponse = new ErrorResponse(errorCode);
-        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorCode.getStatus())); //resolve: convert code in errorCode to http status code
+        return new ResponseEntity<>(errorResponse, resHeaders, HttpStatus.resolve(errorCode.getStatus())); //resolve: convert code in errorCode to http status code
     }
 
 

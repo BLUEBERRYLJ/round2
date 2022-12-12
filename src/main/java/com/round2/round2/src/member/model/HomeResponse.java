@@ -19,9 +19,9 @@ public class HomeResponse {
 //
 //    }
     public HomeResponse(String username, List<MyCurrentCourseDTO> myCurrentCourseDTOList, List<RecommendCourseDTO> recommendCourseDTOList) {
-        this.username =  "안녕하세요, " + username + "님.";
+        this.username =  username;
         this.myCurrentCourseDTOList = myCurrentCourseDTOList;
-        this.recommendName = username + " 님을 위한 추천강의";
+        this.recommendName = username;
         this.recommendCourseDTOList = recommendCourseDTOList;
     }
 }

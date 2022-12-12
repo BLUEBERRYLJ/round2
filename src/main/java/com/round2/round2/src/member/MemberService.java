@@ -4,10 +4,7 @@ import com.round2.round2.config.TokenHelper;
 import com.round2.round2.config.exception.CustomException;
 import com.round2.round2.config.exception.ErrorCode;
 import com.round2.round2.src.domain.Member;
-import com.round2.round2.src.member.model.HomeResponse;
-import com.round2.round2.src.member.model.LoginRequest;
-import com.round2.round2.src.member.model.LoginResponse;
-import com.round2.round2.src.member.model.MyCurrentCourseDTO;
+import com.round2.round2.src.member.model.*;
 import com.round2.round2.src.post.PostRepository;
 import com.round2.round2.utils.JwtService;
 import com.round2.round2.utils.SHA256;
@@ -76,19 +73,19 @@ public class MemberService {
     }
 
 
-//    public HomeResponse getHome() {
-//        Long memberIdByJwt = jwtService.getUserIdx();
-//        Member member = memberRepository.findMemberById(memberIdByJwt);
-////        member.get
-//        List<MyCurrentCourseDTO> myCurrentCourseDTOList = member.getCourseList().stream()
-//                .map(c -> new MyCurrentCourseDTO(c))
-//                .collect(Collectors.toList());
-//
-//
-//
-//
-//        HomeResponse homeResponse = new HomeResponse(member.getName(),myCurrentCourseDTOList,  )
-//
-//
-//    }
+    public HomeResponse getHome() {
+        Long memberIdByJwt = jwtService.getUserIdx();
+        Member member = memberRepository.findMemberById(memberIdByJwt);
+//        member.get
+        List<MyCurrentCourseDTO> myCurrentCourseDTOList = member.getCourseList().stream()
+                .map(c -> new MyCurrentCourseDTO(c))
+                .collect(Collectors.toList());
+
+        List<RecommendCourseDTO> recommendCourseDTOList = member.getRecommendList().stream()
+                .map(rc -> new RecommendCourseDTO(rc))
+                .collect(Collectors.toList());
+
+        HomeResponse homeResponse = new HomeResponse(member.getName(), myCurrentCourseDTOList, recommendCourseDTOList);
+        return homeResponse;
+    }
 }

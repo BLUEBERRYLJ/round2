@@ -42,10 +42,25 @@ public class Course {
     private String introUrl;
     @Column (name = "runtime")
     private double runtime;
+
     @Column (name = "created_at")
     private LocalDateTime createdAt;
     @Column (name = "deleted_at")
     private LocalDateTime deletedAt;
+
     @OneToMany(mappedBy = "course")
     private List<CourseChapter> courseChapterList = new ArrayList<>();
+
+
+    /**
+     * 홈화면 추가
+     */
+//
+//    @OneToMany(mappedBy = "course")
+//    private List<MemberCourse> courseList = new ArrayList<>();
+//
+//
+//    @OneToMany(mappedBy = "course")
+//    private List<MemberRecommend> recommendList = new ArrayList<>();
+
 }

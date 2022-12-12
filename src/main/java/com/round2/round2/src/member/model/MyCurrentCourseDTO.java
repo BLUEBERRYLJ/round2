@@ -14,6 +14,6 @@ public class MyCurrentCourseDTO {
         this.courseName = memberCourse.getCourse().getCourseName();
         double completedTime = memberCourse.getCompletedTime();
         double totalRuntime = memberCourse.getCourse().getRuntime();
-        this.progress = (completedTime / totalRuntime) * 100 + "%";
+        this.progress = ((int)((completedTime / totalRuntime) * 100)) + "%";
     }
 }

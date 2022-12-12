@@ -44,6 +44,10 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<MemberCourse> courseList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<MemberRecommend> recommendList = new ArrayList<>();
+
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
