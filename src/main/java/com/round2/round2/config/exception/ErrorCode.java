@@ -11,6 +11,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(401, "1001", "유저를 찾지 못했습니다"),
     NO_EMAIL_ERROR(400, "1002", "이메일을 입력해주세요"),
     NO_PWD_ERROR(400, "1003", "비밀번호를 입력해주세요"),
+    NAME_EMPTY_ERROR(400, "1004", "이름을 입력해주세요."),
+    EMAIL_FORMAT_ERROR(400, "1005", " 이메일 형식을 확인해주세요."),
 
 
     /**

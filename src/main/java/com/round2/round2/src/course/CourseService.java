@@ -1,24 +1,34 @@
 package com.round2.round2.src.course;
 
+import com.round2.round2.src.domain.Course;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.util.List;
 import com.round2.round2.config.exception.CustomException;
-import com.round2.round2.config.exception.ErrorCode;
 import com.round2.round2.src.course.model.ChapterDetailResponse;
 import com.round2.round2.src.course.model.ChapterInfoDto;
 import com.round2.round2.src.course.model.CourseDetailResponse;
-import com.round2.round2.src.domain.Course;
 import com.round2.round2.src.domain.CourseChapter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CourseService {
 
+
     private final CourseRepository courseRepository;
+
+
+
+    /**
+     * 2.1 강의 리스트 API
+     */
+    public List<Course> findPostList(int category) {
+        return courseRepository.findCourseList(category);
+    }
+
 
     /**
      * 2.2 강의 상세 및 강의 챕터 리스트 리턴 api
