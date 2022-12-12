@@ -76,19 +76,19 @@ public class MemberService {
     }
 
 
-    public HomeResponse getHome() {
-        Long memberIdByJwt = jwtService.getUserIdx();
-        Member member = memberRepository.findMemberById(memberIdByJwt);
-//        member.get
-        List<MyCurrentCourseDTO> myCurrentCourseDTOList = member.getCourseList().stream()
-                .map(c -> new MyCurrentCourseDTO(c))
-                .collect(Collectors.toList());
-
-
-
-
-        HomeResponse homeResponse = new HomeResponse(member.getName(),myCurrentCourseDTOList,  )
-
-
-    }
+//    public HomeResponse getHome() {
+//        Long memberIdByJwt = jwtService.getUserIdx();
+//        Member member = memberRepository.findMemberById(memberIdByJwt);
+////        member.get
+//        List<MyCurrentCourseDTO> myCurrentCourseDTOList = member.getCourseList().stream()
+//                .map(c -> new MyCurrentCourseDTO(c))
+//                .collect(Collectors.toList());
+//
+//
+//
+//
+//        HomeResponse homeResponse = new HomeResponse(member.getName(),myCurrentCourseDTOList,  )
+//
+//
+//    }
 }

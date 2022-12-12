@@ -1,5 +1,10 @@
 package com.round2.round2.src.course;
 
+import com.round2.round2.config.exception.CustomException;
+import com.round2.round2.config.exception.ErrorCode;
+import com.round2.round2.config.exception.ErrorResponse;
+import com.round2.round2.src.course.model.ChapterDetailResponse;
+import com.round2.round2.src.course.model.CourseDetailResponse;
 import com.round2.round2.src.course.model.CourseListResponse;
 import com.round2.round2.src.domain.Course;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +31,7 @@ import java.util.stream.Collectors;
         @ApiResponse(responseCode = "403", description = "토큰을 입력해주세요 (Bearer 제외).", content = @Content(schema = @Schema(hidden = true))),
         @ApiResponse(responseCode = "500", description = "서버 에러.", content = @Content(schema = @Schema(hidden = true))),
 })
-public class CourseController {
+public class  CourseController {
 
     private final CourseService courseService;
 
@@ -43,6 +48,39 @@ public class CourseController {
                 .map(p -> new CourseListResponse(p))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    /**
+     * 2.2 강의 상세 및 강의 챕터 리스트 리턴 api
+     */
+    @Operation(summary = "2.2 강의 상세 및 강의 챕터 리스트 리턴 api", description = "2.2 강의 상세 및 강의 챕터 리스트 리턴 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "406", description = "code:2001 | 강의/챕터를 찾을 수 없습니다.", content = @Content (schema = @Schema(hidden = true))),
+    })
+    @GetMapping("/{courseId}")
+    public ResponseEntity<CourseDetailResponse> getCourseDetail(@PathVariable Long courseId) {
+        CourseDetailResponse courseDetailResponse = courseService.getCourseDetail(courseId);
+        return new ResponseEntity<>(courseDetailResponse, HttpStatus.OK);
+    }
+
+    /**
+     * 2.3 강의 챕터 상세 api
+     */
+    @Operation(summary = "2.3 강의 챕터 상세 api", description = "2.3 강의 챕터 상세 api")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "406", description = "code:2001 | 강의/챕터를 찾을 수 없습니다.", content = @Content (schema = @Schema(hidden = true))),
+    })
+    @GetMapping("/chapter")
+    public ResponseEntity<ChapterDetailResponse> getChapterDetail(@RequestParam int chapterId) {
+        ChapterDetailResponse chapterDetailResponse = courseService.getChapterDetail(chapterId);
+        return new ResponseEntity<>(chapterDetailResponse, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ErrorResponse> exceptionHandler(CustomException customException) {
+        ErrorCode errorCode = customException.getErrorCode();
+        ErrorResponse errorResponse = new ErrorResponse(errorCode);
+        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorCode.getStatus())); //resolve: convert code in errorCode to http status code
     }
 
 

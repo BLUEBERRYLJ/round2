@@ -23,7 +23,7 @@ public class MemberRecommend {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recommend_id")
+    @JoinColumn(name = "course_id")
     private Course course;
 
 }

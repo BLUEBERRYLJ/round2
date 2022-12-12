@@ -16,6 +16,11 @@ public enum ErrorCode {
 
 
     /**
+     * 2. course
+     */
+    COURSE_NOT_FOUND(406, "2001", "강의/챕터를 찾을 수 없습니다."),
+
+    /**
      * 3. post
      */
     EMPTY_BEST_POSTS(400, "3000", "인기 게시물이 없어요."), //3.1 인기게시물
