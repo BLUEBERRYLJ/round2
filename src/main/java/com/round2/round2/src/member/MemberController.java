@@ -86,6 +86,9 @@ public class MemberController {
             @ApiResponse(responseCode = "400", description = "code:1003 | 비밀번호를 입력해주세요", content = @Content(schema = @Schema(hidden = true)))
     })
     public ResponseEntity<HomeResponse> getHome() throws CustomException {
+        HomeResponse home = memberService.getHome();
+
+//        HomeResponse homeResponse = new HomeResponse()
 
 
     }

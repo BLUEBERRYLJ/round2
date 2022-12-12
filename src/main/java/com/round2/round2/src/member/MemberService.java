@@ -4,14 +4,21 @@ import com.round2.round2.config.TokenHelper;
 import com.round2.round2.config.exception.CustomException;
 import com.round2.round2.config.exception.ErrorCode;
 import com.round2.round2.src.domain.Member;
+import com.round2.round2.src.member.model.HomeResponse;
 import com.round2.round2.src.member.model.LoginRequest;
 import com.round2.round2.src.member.model.LoginResponse;
+import com.round2.round2.src.member.model.MyCurrentCourseDTO;
+import com.round2.round2.src.post.PostRepository;
+import com.round2.round2.utils.JwtService;
 import com.round2.round2.utils.SHA256;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +27,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final TokenHelper accessTokenHelper;
     private final TokenHelper refreshTokenHelper;
+    private final JwtService jwtService;
+
 
 
     /**
@@ -67,4 +76,19 @@ public class MemberService {
     }
 
 
+    public HomeResponse getHome() {
+        Long memberIdByJwt = jwtService.getUserIdx();
+        Member member = memberRepository.findMemberById(memberIdByJwt);
+//        member.get
+        List<MyCurrentCourseDTO> myCurrentCourseDTOList = member.getCourseList().stream()
+                .map(c -> new MyCurrentCourseDTO(c))
+                .collect(Collectors.toList());
+
+
+
+
+        HomeResponse homeResponse = new HomeResponse(member.getName(),myCurrentCourseDTOList,  )
+
+
+    }
 }

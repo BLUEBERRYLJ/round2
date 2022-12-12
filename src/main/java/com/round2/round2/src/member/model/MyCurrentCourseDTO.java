@@ -10,10 +10,10 @@ public class MyCurrentCourseDTO {
     private String courseName;
     private String progress;  // completedTime / runTime * 100
 
-    public MyCurrentCourseDTO(Course course, MemberCourse memberCourse) {
-        this.courseName = course.getCourseName();
+    public MyCurrentCourseDTO(MemberCourse memberCourse) {
+        this.courseName = memberCourse.getCourse().getCourseName();
         double completedTime = memberCourse.getCompletedTime();
-        double totalRuntime = course.getRuntime();
-        this.progress = String.valueOf((completedTime / totalRuntime) * 100);
+        double totalRuntime = memberCourse.getCourse().getRuntime();
+        this.progress = (completedTime / totalRuntime) * 100 + "%";
     }
 }

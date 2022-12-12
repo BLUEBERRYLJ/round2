@@ -1,11 +1,15 @@
 package com.round2.round2.src.member;
 
+import com.round2.round2.config.exception.CustomException;
 import com.round2.round2.src.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+
+import static com.round2.round2.config.exception.ErrorCode.USER_NOT_FOUND;
+
 @Repository
 @RequiredArgsConstructor
 public class MemberRepository {
@@ -30,5 +34,13 @@ public class MemberRepository {
         } else { //없으면 null 반환
             return null;
         }
+    }
+
+    public Member findMemberById(Long id) {
+        Member result = em.find(Member.class, id);
+        if (result == null) {
+            throw new CustomException(USER_NOT_FOUND);
+        }
+        return result;
     }
 }
