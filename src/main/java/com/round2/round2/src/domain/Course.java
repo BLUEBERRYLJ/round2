@@ -29,6 +29,8 @@ public class Course {
     @Column (name = "course_name")
     private String courseName;
 
+    private String instructor;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private CourseCategory category;
