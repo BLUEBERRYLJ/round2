@@ -17,6 +17,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.net.ssl.SNIHostName;
+
 import static com.round2.round2.config.exception.ErrorCode.*;
 import static com.round2.round2.utils.ValidationRegex.isRegexEmail;
 import static com.round2.round2.utils.ValidationRegex.isRegexPassword;
@@ -93,16 +96,23 @@ public class MemberController {
         return new ResponseEntity<>(loginResponse, resHeaders, HttpStatus.OK);
     }
 
-    @Operation(summary = "1.3 홈화면 api", description = "1.3 홈화면 api")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "400", description = "code:1003 | 비밀번호를 입력해주세요", content = @Content(schema = @Schema(hidden = true)))
-//    })
+    @Operation(summary = "1.3 홈화면 회원 api", description = "1.3 홈화면 회원 api")
     @GetMapping("/home")
     public ResponseEntity<HomeResponse> getHome() throws CustomException {
         HttpHeaders resHeaders = new HttpHeaders();
         resHeaders.add("Content-Type", "application/json;charset=UTF-8");
 
         HomeResponse homeResponse = memberService.getHome();
+        return new ResponseEntity<>(homeResponse, resHeaders, HttpStatus.OK);
+    }
+
+    @Operation(summary = "1.4 홈화면 비회원 api", description = "1.4 홈화면 비회원 api")
+    @GetMapping("/home")
+    public ResponseEntity<HomeResponse> getHomeforEveryone() throws CustomException {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+        HomeResponse homeResponse = new HomeResponse("방문자");
+//        HomeResponse homeResponse = memberService.getHome();
         return new ResponseEntity<>(homeResponse, resHeaders, HttpStatus.OK);
     }
 

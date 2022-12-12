@@ -24,4 +24,9 @@ public class HomeResponse {
         this.recommendName = username;
         this.recommendCourseDTOList = recommendCourseDTOList;
     }
+
+    public HomeResponse(String username) {
+        this.username = username;
+        this.recommendName = username;
+    }
 }
