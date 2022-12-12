@@ -2,8 +2,6 @@ package com.round2.round2.src.course;
 
 import com.round2.round2.src.course.model.CourseListResponse;
 import com.round2.round2.src.domain.Course;
-import com.round2.round2.src.domain.Post;
-import com.round2.round2.src.post.model.PostListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -39,9 +37,6 @@ public class CourseController {
      */
     @GetMapping
     @Operation(summary = " 2.1 카테고리별 강의 리스트 API (강의 페이지)", description = " 2.1 카테고리별 강의 리스트 (강의 페이지) API")
-    @ApiResponses ({
-            @ApiResponse(responseCode = "400", description = "code:", content = @Content (schema = @Schema(hidden = true)))
-    })
     public ResponseEntity<List<CourseListResponse>> getCourses (@RequestParam int category) {
         List<Course> courseList = courseService.findPostList(category);
         List<CourseListResponse> result = courseList.stream()
