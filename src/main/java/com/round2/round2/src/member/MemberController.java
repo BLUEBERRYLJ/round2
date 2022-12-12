@@ -107,8 +107,8 @@ public class MemberController {
     }
 
     @Operation(summary = "1.4 홈화면 비회원 api", description = "1.4 홈화면 비회원 api")
-    @GetMapping("/home")
-    public ResponseEntity<HomeResponse> getHomeforEveryone() throws CustomException {
+    @GetMapping("/guest/home")
+    public ResponseEntity<HomeResponse> getHomeForGuest() throws CustomException {
         HttpHeaders resHeaders = new HttpHeaders();
         resHeaders.add("Content-Type", "application/json;charset=UTF-8");
         HomeResponse homeResponse = new HomeResponse("방문자");
