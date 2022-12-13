@@ -43,6 +43,8 @@ public class Course {
     @Column (name = "runtime")
     private double runtime;
 
+    private String color;
+
     @Column (name = "created_at")
     private LocalDateTime createdAt;
     @Column (name = "deleted_at")

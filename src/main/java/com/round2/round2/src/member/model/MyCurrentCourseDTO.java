@@ -9,11 +9,14 @@ public class MyCurrentCourseDTO {
 
     private String courseName;
     private String progress;  // completedTime / runTime * 100
+    private String color;
 
     public MyCurrentCourseDTO(MemberCourse memberCourse) {
-        this.courseName = memberCourse.getCourse().getCourseName();
+        Course myCourse = memberCourse.getCourse();
+        this.courseName = myCourse.getCourseName();
         double completedTime = memberCourse.getCompletedTime();
-        double totalRuntime = memberCourse.getCourse().getRuntime();
+        double totalRuntime = myCourse.getRuntime();
         this.progress = ((int)((completedTime / totalRuntime) * 100)) + "%";
+        this.color = memberCourse.getCourse().getColor();
     }
 }
