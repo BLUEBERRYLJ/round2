@@ -18,6 +18,11 @@ public class RecommendCourseDTO {
         this.courseId = course.getId();
         this.courseName = course.getCourseName();
         this.courseDescription = course.getIntroduction();
+    }
 
+    public RecommendCourseDTO(Course course) {
+        this.courseId = course.getId();
+        this.courseName = course.getCourseName();
+        this.courseDescription = course.getIntroduction();
     }
 }

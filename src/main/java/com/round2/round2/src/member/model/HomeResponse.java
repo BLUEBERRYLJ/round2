@@ -2,13 +2,14 @@ package com.round2.round2.src.member.model;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class HomeResponse {
 
     private String username;
-    private List<MyCurrentCourseDTO> myCurrentCourseDTOList;
+    private List<MyCurrentCourseDTO> myCurrentCourseDTOList = new ArrayList<>();
     private String recommendName;
     private List<RecommendCourseDTO> recommendCourseDTOList;
 
@@ -25,8 +26,9 @@ public class HomeResponse {
         this.recommendCourseDTOList = recommendCourseDTOList;
     }
 
-    public HomeResponse(String username) {
+    public HomeResponse(String username, List<RecommendCourseDTO> recommendCourseDTOList) {
         this.username = username;
         this.recommendName = username;
+        this.recommendCourseDTOList = recommendCourseDTOList;
     }
 }
