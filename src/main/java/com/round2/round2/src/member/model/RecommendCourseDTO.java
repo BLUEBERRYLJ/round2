@@ -9,15 +9,19 @@ public class RecommendCourseDTO {
 
     private Long courseId;
     private String courseName;
-    private String courseDescription;
-
+//    private String courseDescription;
+    private String instructor;
+    private int courseCount;
 
 
     public RecommendCourseDTO(MemberRecommend rc) {
         Course course = rc.getCourse();
         this.courseId = course.getId();
         this.courseName = course.getCourseName();
-        this.courseDescription = course.getIntroduction();
+        this.instructor = course.getInstructor();
+        this.courseCount = course.getCourseChapterList().size();
+//        this.courseDescription = course.getIntroduction();
+
 
     }
 }

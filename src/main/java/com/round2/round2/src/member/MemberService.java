@@ -77,6 +77,9 @@ public class MemberService {
     }
 
 
+    /**
+     * 1.3 홈화면 api
+     */
     public HomeResponse getHome() {
         Long memberIdByJwt = jwtService.getUserIdx();
         Member member = memberRepository.findMemberById(memberIdByJwt);
