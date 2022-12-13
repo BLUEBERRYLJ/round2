@@ -3,6 +3,7 @@ package com.round2.round2.src.member;
 import com.round2.round2.config.TokenHelper;
 import com.round2.round2.config.exception.CustomException;
 import com.round2.round2.config.exception.ErrorCode;
+import com.round2.round2.src.domain.Course;
 import com.round2.round2.src.domain.Member;
 import com.round2.round2.src.member.model.*;
 import com.round2.round2.src.post.PostRepository;
@@ -94,6 +95,15 @@ public class MemberService {
                 .collect(Collectors.toList());
 
         HomeResponse homeResponse = new HomeResponse(member.getName(), myCurrentCourseDTOList, recommendCourseDTOList);
+        return homeResponse;
+    }
+
+    public HomeResponse getHomeForGuest() {
+        List<RecommendCourseDTO> topThreeCourseList = memberRepository.getCourseList().stream()
+                .map(courseList -> new RecommendCourseDTO(courseList))
+                .collect(Collectors.toList());
+
+        HomeResponse homeResponse = new HomeResponse("방문자", topThreeCourseList);
         return homeResponse;
     }
 }

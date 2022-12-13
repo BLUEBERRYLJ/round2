@@ -108,7 +108,7 @@ public class MemberController {
     public ResponseEntity<HomeResponse> getHomeForGuest() throws CustomException {
         HttpHeaders resHeaders = new HttpHeaders();
         resHeaders.add("Content-Type", "application/json;charset=UTF-8");
-        HomeResponse homeResponse = new HomeResponse("방문자");
+        HomeResponse homeResponse = memberService.getHomeForGuest();
 //        HomeResponse homeResponse = memberService.getHome();
         return new ResponseEntity<>(homeResponse, resHeaders, HttpStatus.OK);
     }
