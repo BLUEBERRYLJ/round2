@@ -126,6 +126,7 @@ public class PostController {
     /**
      * 3.5 게시물 상세 댓글 API
      */
+    @Operation(summary = "3.5 게시물 상세 댓글 API", description = "3.5 게시물 상세 댓글 API")
     @ApiResponses ({
             @ApiResponse(responseCode = "406", description = "code:3005 | 게시물을 찾지 못했습니다.", content = @Content (schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "406", description = "code:3006 | 삭제된 게시물입니다.", content = @Content (schema = @Schema(hidden = true))),
@@ -141,8 +142,9 @@ public class PostController {
     }
     
     /**
-     * 3.5 게시물 삭제 API
+     * 3.6 게시물 삭제 API
      */
+    @Operation(summary = "3.6 게시물 삭제 API", description = "3.6 게시물 삭제 API")
     @PatchMapping("status/{id}")
     public ResponseEntity<String> deletePost (@PathVariable Long id) {
         HttpHeaders resHeaders = new HttpHeaders();
