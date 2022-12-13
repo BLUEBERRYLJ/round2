@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,8 @@ public class CommentController {
 
     private final CommentService commentService;
 
+
+
     /**
      * 4.1 댓글 작성
      */
@@ -39,8 +42,11 @@ public class CommentController {
     })
     @PostMapping
     public ResponseEntity<PostCommentResponse> createComment(@RequestBody PostCommentRequest postCommentRequest) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+
         PostCommentResponse postCommentResponse = commentService.createComment(postCommentRequest);
-        return new ResponseEntity<>(postCommentResponse, HttpStatus.OK);
+        return new ResponseEntity<>(postCommentResponse, resHeaders, HttpStatus.CREATED);
     }
 
     /**
@@ -57,15 +63,21 @@ public class CommentController {
     })
     @PatchMapping("/status/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable Long id) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+
         commentService.deleteComment(id);
-        return new ResponseEntity<>("댓글 삭제에 성공하였습니다.", HttpStatus.OK);
+        return new ResponseEntity<>("댓글 삭제에 성공하였습니다.", resHeaders, HttpStatus.OK);
     }
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ErrorResponse> exceptionHandler(CustomException customException) {
+        HttpHeaders resHeaders = new HttpHeaders();
+        resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+
         ErrorCode errorCode = customException.getErrorCode();
         ErrorResponse errorResponse = new ErrorResponse(errorCode);
-        return new ResponseEntity<>(errorResponse, HttpStatus.resolve(errorCode.getStatus()));
+        return new ResponseEntity<>(errorResponse, resHeaders, HttpStatus.resolve(errorCode.getStatus()));
     }
 
 }

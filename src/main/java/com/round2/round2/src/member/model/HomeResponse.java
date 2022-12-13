@@ -14,11 +14,7 @@ public class HomeResponse {
     private List<RecommendCourseDTO> recommendCourseDTOList;
 
 
-//    public HomeResponse() {
-//        username = "안녕하세요, 방문자님.";
-//        myCurrentCourseDTOList =
-//
-//    }
+
     public HomeResponse(String username, List<MyCurrentCourseDTO> myCurrentCourseDTOList, List<RecommendCourseDTO> recommendCourseDTOList) {
         this.username =  username;
         this.myCurrentCourseDTOList = myCurrentCourseDTOList;

@@ -33,11 +33,7 @@ import static com.round2.round2.utils.ValidationRegex.isRegexPassword;
         @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(schema = @Schema(hidden = true)))
 })
 public class MemberController {
-//
     private final MemberService memberService;
-
-
-
 
 
     @Operation(summary = "1.1 회원가입 api", description = "1.1 회원가입 api")
@@ -106,6 +102,7 @@ public class MemberController {
         return new ResponseEntity<>(homeResponse, resHeaders, HttpStatus.OK);
     }
 
+
     @Operation(summary = "1.4 홈화면 비회원 api", description = "1.4 홈화면 비회원 api")
     @GetMapping("/guest/home")
     public ResponseEntity<HomeResponse> getHomeForGuest() throws CustomException {
@@ -115,6 +112,7 @@ public class MemberController {
 //        HomeResponse homeResponse = memberService.getHome();
         return new ResponseEntity<>(homeResponse, resHeaders, HttpStatus.OK);
     }
+
 
 
     @ExceptionHandler(CustomException.class)
