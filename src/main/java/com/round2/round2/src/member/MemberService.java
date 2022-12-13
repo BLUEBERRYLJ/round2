@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -64,7 +65,7 @@ public class MemberService {
         TokenHelper.PrivateClaims privateClaims = createPrivateClaims(memberId, memberRole);
         String accessToken = accessTokenHelper.createAccessToken(privateClaims);
         String refreshToken = refreshTokenHelper.createRefreshToken(privateClaims, loginRequest.getEmail());
-        LoginResponse loginResponse = new LoginResponse(memberId, accessToken, refreshToken);
+        LoginResponse loginResponse = new LoginResponse(memberId, accessToken, refreshToken, memberRole);
         return loginResponse;
     }
 

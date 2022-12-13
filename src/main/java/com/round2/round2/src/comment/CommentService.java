@@ -18,6 +18,7 @@ import static com.round2.round2.config.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class CommentService {
 
     private final JwtService jwtService;

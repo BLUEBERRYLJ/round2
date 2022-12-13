@@ -23,6 +23,7 @@ import static com.round2.round2.config.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostService {
 
     private final JwtService jwtService;

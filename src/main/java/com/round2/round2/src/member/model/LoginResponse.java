@@ -11,4 +11,5 @@ public class LoginResponse {
     private Long memberId;
     private String accessToken;
     private String refreshToken;
+    private String isSubscribed;
 }
